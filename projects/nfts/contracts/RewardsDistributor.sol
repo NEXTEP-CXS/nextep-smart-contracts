@@ -23,8 +23,6 @@ contract RewardsDistributor is AccessControl {
     mapping(uint256 => address) public owners;
     /// @dev Used internally to optimize transfers
     mapping(address => uint256) tempTransfers;
-    /// Last time the distribution was triggered (timestamp)
-    uint256 public lastCall;
 
     constructor(address tokenAddr) 
     AccessControl() {
@@ -84,7 +82,6 @@ contract RewardsDistributor is AccessControl {
 
         // send the rest to treasury
         nextep.transfer(treasury, nextep.balanceOf(address(this)));
-        lastCall = block.timestamp;
     }
 
     function _queueTransfer(address destination, uint256 amount) internal {
